@@ -1,4 +1,3 @@
-import { reason, resolveNullable } from "@jahed/promises";
 import os from "os";
 
 export interface PlatformInfo {
@@ -99,22 +98,25 @@ const PLATFORM_MAPPING: Record<string, PlatformInfo | null> = {
  * @returns Promise resolving to PlatformInfo containing package name and binary subpath
  * @throws Error if the current platform/architecture combination is not supported
  */
-const getPlatformPackage = () => {
+const getPlatformPackage = (): Promise<PlatformInfo> => {
   const platform = process.platform;
   const arch = os.arch();
   const key = `${platform} ${arch}`;
   
   const platformInfo = PLATFORM_MAPPING[key];
   
-  return resolveNullable(
-    platformInfo,
-    reason(
+  if (!platformInfo) {
+    const supportedPlatforms = Object.keys(PLATFORM_MAPPING)
+      .filter(k => PLATFORM_MAPPING[k] !== null)
+      .join(", ");
+    
+    return Promise.reject(new Error(
       `Platform "${platform}" with architecture "${arch}" is not supported by Terraform. ` +
-      `Supported combinations: ${Object.keys(PLATFORM_MAPPING)
-        .filter(k => PLATFORM_MAPPING[k] !== null)
-        .join(", ")}`
-    )
-  );
+      `Supported combinations: ${supportedPlatforms}`
+    ));
+  }
+  
+  return Promise.resolve(platformInfo);
 };
 
 /**
@@ -124,12 +126,6 @@ const getPlatformPackage = () => {
  */
 const getTerraformPlatform = async () => {
   const platformInfo = await getPlatformPackage();
-  
-  // TypeScript doesn't know that resolveNullable throws rather than returning null
-  if (!platformInfo) {
-    throw new Error("Platform info is null - this should not happen as resolveNullable throws");
-  }
-  
   return platformInfo.terraformPlatform;
 };
 
@@ -140,12 +136,6 @@ const getTerraformPlatform = async () => {
  */
 const getTerraformArchitecture = async () => {
   const platformInfo = await getPlatformPackage();
-  
-  // TypeScript doesn't know that resolveNullable throws rather than returning null
-  if (!platformInfo) {
-    throw new Error("Platform info is null - this should not happen as resolveNullable throws");
-  }
-  
   return platformInfo.terraformArch;
 };
 

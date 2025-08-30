@@ -1,8 +1,15 @@
 {
-  "extends": "@tsconfig/node16/tsconfig.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "outDir": "./lib/",
+    "lib": ["es2021"],
+    "module": "Node16",
+    "target": "es2021",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node16",
+    "outDir": "./lib/",
     "declaration": true
   },
   "include": ["src"],

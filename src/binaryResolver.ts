@@ -16,10 +16,7 @@ export async function resolveTerraformBinary(): Promise<string> {
   const platformInfo = await getPlatformPackage();
   debug("platform package info resolved", { platformInfo });
   
-  // TypeScript doesn't know that resolveNullable throws rather than returning null
-  if (!platformInfo) {
-    throw new Error("Platform info is null - this should not happen as resolveNullable throws");
-  }
+  // platformInfo is guaranteed to exist since getPlatformPackage() rejects on null
   
   // Try to resolve the platform package
   let packagePath: string;
