@@ -23,13 +23,15 @@
   "files": [
     "bin",
     "lib",
-    "hashicorp.asc"
+    "hashicorp.asc",
+    "install.js"
   ],
   "scripts": {
     "lint": "prettier -c .",
     "build": "rm -rf ./lib ./artifacts && tsc && mkdir ./artifacts && mv \"$(npm pack)\" ./artifacts/package.tgz",
     "test": "./tests/run.sh",
-    "version": "npm run build && npm run test"
+    "version": "npm run build && npm run test",
+    "postinstall": "node install.js"
   },
   "dependencies": {
     "@jahed/promises": "^1.0.2",
@@ -45,5 +47,17 @@
     "npm-check-updates": "^16.14.20",
     "prettier": "^2.8.8",
     "typescript": "4.9.x"
+  },
+  "optionalDependencies": {
+    "@jahed/terraform-darwin-arm64": "1.13.1",
+    "@jahed/terraform-darwin-x64": "1.13.1",
+    "@jahed/terraform-linux-arm64": "1.13.1",
+    "@jahed/terraform-linux-x64": "1.13.1",
+    "@jahed/terraform-linux-arm": "1.13.1",
+    "@jahed/terraform-win32-arm64": "1.13.1",
+    "@jahed/terraform-win32-x64": "1.13.1",
+    "@jahed/terraform-freebsd-x64": "1.13.1",
+    "@jahed/terraform-openbsd-x64": "1.13.1",
+    "@jahed/terraform-solaris-x64": "1.13.1"
   }
 }

@@ -1,14 +1,14 @@
 import { spawn } from "child_process";
-import { getOutputs } from "./getOutputs";
-import { install } from "./install";
+import { resolveTerraformBinary } from "./binaryResolver";
 
 const cli = async () => {
   const args = process.argv.slice(2);
-  const outputs = getOutputs();
+  
+  // Use the new esbuild-style binary resolution system
+  // This tries platform packages first, then falls back to download
+  const terraformPath = await resolveTerraformBinary();
 
-  await install(outputs);
-
-  const terraform = spawn(outputs.path, args, {
+  const terraform = spawn(terraformPath, args, {
     stdio: [process.stdin, process.stdout, process.stderr],
   });
 
