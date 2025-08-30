@@ -2,6 +2,7 @@
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib/",
+    "moduleResolution": "node16",
     "declaration": true
   },
   "include": ["src"],

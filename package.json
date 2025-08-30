@@ -23,27 +23,20 @@
   "files": [
     "bin",
     "lib",
-    "hashicorp.asc",
-    "install.js"
+    "hashicorp.asc"
   ],
   "scripts": {
     "lint": "prettier -c .",
     "build": "rm -rf ./lib ./artifacts && tsc && mkdir ./artifacts && mv \"$(npm pack)\" ./artifacts/package.tgz",
     "test": "./tests/run.sh",
-    "version": "npm run build && npm run test",
-    "postinstall": "node install.js"
+    "version": "npm run build && npm run test"
   },
   "dependencies": {
-    "@jahed/promises": "^1.0.2",
-    "find-cache-dir": "^3.3.2",
-    "openpgp": "^5.11.3",
-    "yauzl": "^2.10.0"
+    "@jahed/promises": "^1.0.2"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.4",
-    "@types/find-cache-dir": "^3.2.1",
     "@types/node": "^16.18.126",
-    "@types/yauzl": "^2.10.3",
     "npm-check-updates": "^16.14.20",
     "prettier": "^2.8.8",
     "typescript": "4.9.x"
