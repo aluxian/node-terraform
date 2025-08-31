@@ -19,12 +19,12 @@ const PLATFORM_MAPPING: Record<string, PlatformInfo | null> = {
     terraformArch: "arm64",
   },
   "darwin x64": {
-    pkg: "@jahed/terraform-darwin-x64", 
+    pkg: "@jahed/terraform-darwin-x64",
     subpath: "bin/terraform",
     terraformPlatform: "darwin",
     terraformArch: "amd64",
   },
-  
+
   // Linux
   "linux arm64": {
     pkg: "@jahed/terraform-linux-arm64",
@@ -44,7 +44,7 @@ const PLATFORM_MAPPING: Record<string, PlatformInfo | null> = {
     terraformPlatform: "linux",
     terraformArch: "arm",
   },
-  
+
   // Windows
   "win32 arm64": {
     pkg: "@jahed/terraform-win32-arm64",
@@ -58,7 +58,7 @@ const PLATFORM_MAPPING: Record<string, PlatformInfo | null> = {
     terraformPlatform: "windows",
     terraformArch: "amd64",
   },
-  
+
   // FreeBSD
   "freebsd x64": {
     pkg: "@jahed/terraform-freebsd-x64",
@@ -66,7 +66,7 @@ const PLATFORM_MAPPING: Record<string, PlatformInfo | null> = {
     terraformPlatform: "freebsd",
     terraformArch: "amd64",
   },
-  
+
   // OpenBSD
   "openbsd x64": {
     pkg: "@jahed/terraform-openbsd-x64",
@@ -74,7 +74,7 @@ const PLATFORM_MAPPING: Record<string, PlatformInfo | null> = {
     terraformPlatform: "openbsd",
     terraformArch: "amd64",
   },
-  
+
   // Solaris (Node.js reports as 'sunos')
   "sunos x64": {
     pkg: "@jahed/terraform-solaris-x64",
@@ -82,7 +82,7 @@ const PLATFORM_MAPPING: Record<string, PlatformInfo | null> = {
     terraformPlatform: "solaris",
     terraformArch: "amd64",
   },
-  
+
   // Unsupported platforms explicitly set to null
   "aix x64": null,
   "android arm64": null,
@@ -102,25 +102,27 @@ const getPlatformPackage = (): Promise<PlatformInfo> => {
   const platform = process.platform;
   const arch = os.arch();
   const key = `${platform} ${arch}`;
-  
+
   const platformInfo = PLATFORM_MAPPING[key];
-  
+
   if (!platformInfo) {
     const supportedPlatforms = Object.keys(PLATFORM_MAPPING)
-      .filter(k => PLATFORM_MAPPING[k] !== null)
+      .filter((k) => PLATFORM_MAPPING[k] !== null)
       .join(", ");
-    
-    return Promise.reject(new Error(
-      `Platform "${platform}" with architecture "${arch}" is not supported by Terraform. ` +
-      `Supported combinations: ${supportedPlatforms}`
-    ));
+
+    return Promise.reject(
+      new Error(
+        `Platform "${platform}" with architecture "${arch}" is not supported by Terraform. ` +
+          `Supported combinations: ${supportedPlatforms}`
+      )
+    );
   }
-  
+
   return Promise.resolve(platformInfo);
 };
 
 /**
- * Gets the Terraform platform name for the current system  
+ * Gets the Terraform platform name for the current system
  * @returns Promise resolving to terraform platform name (e.g., "darwin", "linux", "windows")
  * @throws Error if the current platform/architecture combination is not supported
  */
@@ -131,7 +133,7 @@ const getTerraformPlatform = async () => {
 
 /**
  * Gets the Terraform architecture name for the current system
- * @returns Promise resolving to terraform architecture name (e.g., "amd64", "arm64", "arm")  
+ * @returns Promise resolving to terraform architecture name (e.g., "amd64", "arm64", "arm")
  * @throws Error if the current platform/architecture combination is not supported
  */
 const getTerraformArchitecture = async () => {
