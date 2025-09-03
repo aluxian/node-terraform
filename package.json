@@ -33,13 +33,13 @@
   "optionalDependencies": {
     "@jahed/terraform-darwin-arm64": "1.13.1",
     "@jahed/terraform-darwin-x64": "1.13.1",
+    "@jahed/terraform-freebsd-x64": "1.13.1",
+    "@jahed/terraform-linux-arm": "1.13.1",
     "@jahed/terraform-linux-arm64": "1.13.1",
     "@jahed/terraform-linux-x64": "1.13.1",
-    "@jahed/terraform-linux-arm": "1.13.1",
-    "@jahed/terraform-win32-arm64": "1.13.1",
-    "@jahed/terraform-win32-x64": "1.13.1",
-    "@jahed/terraform-freebsd-x64": "1.13.1",
     "@jahed/terraform-openbsd-x64": "1.13.1",
-    "@jahed/terraform-solaris-x64": "1.13.1"
+    "@jahed/terraform-solaris-x64": "1.13.1",
+    "@jahed/terraform-win32-arm64": "1.13.1",
+    "@jahed/terraform-win32-x64": "1.13.1"
   }
 }

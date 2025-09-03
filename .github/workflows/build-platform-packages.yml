@@ -108,211 +108,25 @@ jobs:
           cache: "npm"
 
       - name: Validate Terraform version format
-        run: |
-          if [[ ! "${{ inputs.terraform_version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-z]+[0-9]*)?$ ]]; then
-            echo "Error: Invalid Terraform version format. Expected format: X.Y.Z or X.Y.Z-suffix"
-            exit 1
-          fi
+        run: ./scripts/release/determine-versions.sh "${{ inputs.terraform_version }}" env > /dev/null
 
       - name: Download and verify Terraform binary
-        run: |
-          set -euo pipefail
-
-          VERSION="${{ inputs.terraform_version }}"
-          TERRAFORM_ARCH="${{ matrix.terraform_arch }}"
-
-          echo "Downloading Terraform ${VERSION} for ${TERRAFORM_ARCH}..."
-
-          # Create download directory
-          mkdir -p downloads
-          cd downloads
-
-          # Download binary
-          DOWNLOAD_URL="https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_${TERRAFORM_ARCH}.zip"
-          echo "Download URL: ${DOWNLOAD_URL}"
-
-          curl -fsSL -o "terraform_${VERSION}_${TERRAFORM_ARCH}.zip" "${DOWNLOAD_URL}"
-
-          # Download checksums file
-          curl -fsSL -o "terraform_${VERSION}_SHA256SUMS" "https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_SHA256SUMS"
-
-          # Verify checksum
-          echo "Verifying checksum..."
-          if command -v sha256sum >/dev/null; then
-            grep "terraform_${VERSION}_${TERRAFORM_ARCH}.zip" "terraform_${VERSION}_SHA256SUMS" | sha256sum -c
-          else
-            echo "Warning: sha256sum not available, skipping checksum verification"
-          fi
-
-          # Extract binary
-          unzip -q "terraform_${VERSION}_${TERRAFORM_ARCH}.zip"
-
-          # Verify binary exists and is executable
-          if [[ "${{ matrix.platform }}" == "win32" ]]; then
-            if [[ ! -f "terraform.exe" ]]; then
-              echo "Error: terraform.exe not found after extraction"
-              exit 1
-            fi
-          else
-            if [[ ! -f "terraform" ]]; then
-              echo "Error: terraform binary not found after extraction"
-              exit 1
-            fi
-            chmod +x terraform
-          fi
-
-          echo "Binary downloaded and verified successfully"
+        run: ./scripts/platform/download-terraform.sh "${{ inputs.terraform_version }}" "${{ matrix.terraform_arch }}" downloads
 
       - name: Create platform package structure
-        run: |
-          set -euo pipefail
-
-          PACKAGE_DIR="platform-packages/${{ matrix.package_name }}"
-          mkdir -p "${PACKAGE_DIR}/bin"
-
-          echo "Creating package structure for ${{ matrix.package_name }}..."
-
-          # Copy binary to package
-          if [[ "${{ matrix.platform }}" == "win32" ]]; then
-            cp downloads/terraform.exe "${PACKAGE_DIR}/bin/"
-          else
-            cp downloads/terraform "${PACKAGE_DIR}/bin/"
-          fi
-
-          # Ensure binary is executable (Unix-like systems)
-          if [[ "${{ matrix.platform }}" != "win32" ]]; then
-            chmod +x "${PACKAGE_DIR}/bin/terraform"
-          fi
+        run: ./scripts/platform/create-package-structure.sh "${{ matrix.package_name }}" "${{ matrix.platform }}" downloads platform-packages
 
       - name: Generate package.json
-        run: |
-          set -euo pipefail
-
-          PACKAGE_DIR="platform-packages/${{ matrix.package_name }}"
-          VERSION="${{ inputs.terraform_version }}"
-
-          # Create package.json
-          cat > "${PACKAGE_DIR}/package.json" << EOF
-          {
-            "name": "${{ matrix.package_name }}",
-            "version": "${VERSION}",
-            "description": "Terraform binary for ${{ matrix.platform }} ${{ matrix.npm_arch }}",
-            "author": "Jahed Ahmed <jahed.public@gmail.com> (https://jahed.dev)",
-            "license": "MIT",
-            "repository": "https://github.com/jahed/node-terraform",
-            "homepage": "https://github.com/jahed/node-terraform",
-            "bugs": "https://github.com/jahed/node-terraform/issues",
-            "funding": "https://jahed.dev/donate",
-            "keywords": [
-              "terraform",
-              "hashicorp",
-              "infrastructure",
-              "automation",
-              "executable",
-              "binary",
-              "${{ matrix.platform }}",
-              "${{ matrix.npm_arch }}"
-            ],
-            "os": ["${{ matrix.platform }}"],
-            "cpu": ["${{ matrix.npm_arch }}"],
-            "files": [
-              "bin"
-            ],
-            "engines": {
-              "node": ">=16.0.0"
-            }
-          }
-          EOF
-
-          echo "Generated package.json for ${{ matrix.package_name }}"
+        run: node ./scripts/platform/generate-package-json.js "${{ matrix.package_name }}" "${{ inputs.terraform_version }}" "${{ matrix.platform }}" "${{ matrix.npm_arch }}" "platform-packages/${{ matrix.package_name }}"
 
       - name: Generate README.md
-        run: |
-          set -euo pipefail
-
-          PACKAGE_DIR="platform-packages/${{ matrix.package_name }}"
-
-          cat > "${PACKAGE_DIR}/README.md" << 'EOF'
-          # ${{ matrix.package_name }}
-
-          This package contains the Terraform binary for ${{ matrix.platform }} ${{ matrix.npm_arch }}.
-
-          This is a platform-specific package that gets automatically installed as an optional dependency of [@jahed/terraform](https://www.npmjs.com/package/@jahed/terraform).
-
-          **Do not install this package directly.** Instead, install the main package:
-
-          ```bash
-          npm install @jahed/terraform
-          ```
-
-          ## Platform Support
-
-          - **OS**: ${{ matrix.platform }}
-          - **Architecture**: ${{ matrix.npm_arch }}
-          - **Terraform Version**: ${{ inputs.terraform_version }}
-
-          ## License
-
-          MIT - See the main [@jahed/terraform](https://github.com/jahed/node-terraform) repository for details.
-          EOF
-
-          echo "Generated README.md for ${{ matrix.package_name }}"
+        run: node ./scripts/platform/generate-readme.js "${{ matrix.package_name }}" "${{ matrix.platform }}" "${{ matrix.npm_arch }}" "${{ inputs.terraform_version }}" "platform-packages/${{ matrix.package_name }}"
 
       - name: Validate package structure
-        run: |
-          set -euo pipefail
-
-          PACKAGE_DIR="platform-packages/${{ matrix.package_name }}"
-
-          echo "Validating package structure for ${{ matrix.package_name }}..."
-
-          # Check required files exist
-          if [[ ! -f "${PACKAGE_DIR}/package.json" ]]; then
-            echo "Error: package.json not found"
-            exit 1
-          fi
-
-          if [[ ! -f "${PACKAGE_DIR}/README.md" ]]; then
-            echo "Error: README.md not found"
-            exit 1
-          fi
-
-          if [[ ! -f "${PACKAGE_DIR}/bin/${{ matrix.binary_name }}" ]]; then
-            echo "Error: Binary ${{ matrix.binary_name }} not found in bin/"
-            exit 1
-          fi
-
-          # Validate package.json structure
-          cd "${PACKAGE_DIR}"
-
-          if ! node -e "const pkg = require('./package.json'); console.log('Package validation passed:', pkg.name)"; then
-            echo "Error: Invalid package.json"
-            exit 1
-          fi
-
-          # Check binary is executable (Unix-like systems)
-          if [[ "${{ matrix.platform }}" != "win32" ]]; then
-            if [[ ! -x "bin/terraform" ]]; then
-              echo "Error: Binary is not executable"
-              exit 1
-            fi
-          fi
-
-          echo "Package structure validation passed"
+        run: ./scripts/platform/validate-package.sh "platform-packages/${{ matrix.package_name }}" "${{ matrix.package_name }}" "${{ matrix.platform }}" "${{ matrix.binary_name }}"
 
       - name: Test package installability
-        run: |
-          set -euo pipefail
-
-          PACKAGE_DIR="platform-packages/${{ matrix.package_name }}"
-          cd "${PACKAGE_DIR}"
-
-          echo "Testing package installability..."
-
-          # Create a test package archive
-          npm pack --dry-run
-
-          echo "Package installability test passed"
+        run: ./scripts/platform/test-package.sh "platform-packages/${{ matrix.package_name }}" basic
 
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
@@ -323,25 +137,7 @@ jobs:
           retention-days: 7
 
       - name: Publish platform package to npm
-        run: |
-          set -euo pipefail
-
-          PACKAGE_DIR="platform-packages/${{ matrix.package_name }}"
-          cd "${PACKAGE_DIR}"
-
-          echo "Publishing ${{ matrix.package_name }} to npm..."
-
-          # Check if package already exists with this version
-          if npm view "${{ matrix.package_name }}@${{ inputs.terraform_version }}" version 2>/dev/null; then
-            echo "Package ${{ matrix.package_name }}@${{ inputs.terraform_version }} already exists on npm"
-            echo "Skipping publish to avoid conflicts"
-            exit 0
-          fi
-
-          # Publish with provenance
-          npm publish --access public --provenance
-
-          echo "Successfully published ${{ matrix.package_name }}@${{ inputs.terraform_version }}"
+        run: ./scripts/platform/publish-package.sh "platform-packages/${{ matrix.package_name }}" "${{ matrix.package_name }}" "${{ inputs.terraform_version }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
