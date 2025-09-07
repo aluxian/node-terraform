@@ -147,7 +147,6 @@ test_info "Test 10: Environment variable overrides"
 test_dir="test-env-vars"
 mkdir -p "$test_dir"
 
-export AUTHOR="Test Author <test@example.com>"
 export REPOSITORY="https://github.com/test/repo"
 export HOMEPAGE="https://test.example.com"
 
@@ -157,11 +156,9 @@ assert_equals 0 "$exit_code" "Should succeed with environment variables"
 
 # Verify environment variables were used
 generated_json="$test_dir/package.json"
-actual_author=$(jq -r '.author' "$generated_json")
 actual_repo=$(jq -r '.repository' "$generated_json")
 actual_homepage=$(jq -r '.homepage' "$generated_json")
 
-assert_equals "Test Author <test@example.com>" "$actual_author" "Should use AUTHOR env var"
 assert_equals "https://github.com/test/repo" "$actual_repo" "Should use REPOSITORY env var"
 assert_equals "https://test.example.com" "$actual_homepage" "Should use HOMEPAGE env var"
 
@@ -209,7 +206,7 @@ files=$(jq -r '.files | join(",")' "$generated_json")
 assert_contains "$files" "bin" "Should include bin in files array"
 
 # Clean up environment variables
-unset AUTHOR REPOSITORY HOMEPAGE
+unset REPOSITORY HOMEPAGE
 
 # Summary
 report_test_results "generate-package-json.js"

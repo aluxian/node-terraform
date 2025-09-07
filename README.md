@@ -1,10 +1,8 @@
 # @aluxian/terraform
 
 [![npm](https://img.shields.io/npm/v/@aluxian/terraform.svg)](https://www.npmjs.com/package/@aluxian/terraform)
-[![author](https://img.shields.io/badge/author-aluxian-%23007fff)](https://aluxian.dev/)
 
-A wrapper which downloads and runs [Terraform](https://www.terraform.io/)
-locally via [npm](https://www.npmjs.com/).
+A wrapper which downloads and runs [Terraform](https://www.terraform.io/) locally via [npm](https://www.npmjs.com/).
 
 - Automates and manages your Terraform setup like all your other npm dependencies.
 - Downloads the correct version of Terraform regardless of which Operating System you're using.
@@ -14,7 +12,6 @@ locally via [npm](https://www.npmjs.com/).
 
 ## Useful Links
 
-- [Development Blog](https://aluxian.dev/tags/node-terraform/)
 - [Terraform CHANGELOG](https://github.com/hashicorp/terraform/blob/master/CHANGELOG.md)
 - [Terraform Releases](https://releases.hashicorp.com/terraform/)
 
@@ -23,10 +20,7 @@ locally via [npm](https://www.npmjs.com/).
 Make sure to install the correct version for your project.
 
 ```sh
-# Latest
-npm install @aluxian/terraform
-
-# Specific version
+npm install @aluxian/terraform@latest
 npm install @aluxian/terraform@1.0.6
 ```
 
@@ -106,13 +100,6 @@ calling some other package. If you'd rather not, you can install the package
 [globally on your system](#global-installation) or
 [locally for your project](#installation).
 
-## Download Directory
-
-This package uses `find-cache-dir` to decide where to download files to.
-Provide a `CACHE_DIR` environment variable to override the default cache
-directory. For more information, check
-[`find-cache-dir`'s documentation](https://github.com/avajs/find-cache-dir).
-
 ## FAQ & Troubleshooting
 
 ### How does this package use Terraform?
@@ -140,24 +127,6 @@ Typically, if you're using the latest version of Terraform, you'll get the
 latest improvements of this package so you don't need to worry about any of
 this.
 
-### How do I see what this package is doing?
-
-To see what this package is doing (such as creating files and downloading) you
-can enable debug logs using the `NODE_DEBUG` environment variable.
-
-```sh
-NODE_DEBUG='@aluxian/terraform' npx terraform --help
-```
-
-### The `terraform` version isn't available.
-
-Submit an issue ticket and I'll publish a new version.
-
-### The `terraform` executable is corrupt.
-
-Remove the package and reinstall it. If that doesn't work, submit an issue
-ticket and I'll look into it.
-
 ## License
 
-[MIT](./LICENSE)
+MPL-2.0

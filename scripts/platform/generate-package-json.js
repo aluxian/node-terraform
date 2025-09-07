@@ -28,7 +28,6 @@ Examples:
   node ${process.argv[1]} @aluxian/terraform-win32-x64 1.13.1 win32 x64 ./win32-package
 
 Environment Variables:
-  AUTHOR          Package author (default: "Jahed Ahmed <aluxian.public@gmail.com> (https://aluxian.dev)")
   REPOSITORY      Repository URL (default: "https://github.com/aluxian/node-terraform")
   HOMEPAGE        Homepage URL (default: same as repository)
   BUGS            Bug tracker URL (default: repository + /issues)
@@ -80,7 +79,6 @@ function validateArguments(args) {
 
 function generatePackageJson(packageName, version, platform, npmArch) {
   // Environment variables with defaults
-  const author = process.env.AUTHOR || "Jahed Ahmed <aluxian.public@gmail.com> (https://aluxian.dev)";
   const repository = process.env.REPOSITORY || "https://github.com/aluxian/node-terraform";
   const homepage = process.env.HOMEPAGE || repository;
   const bugs = process.env.BUGS || `${repository}/issues`;
@@ -90,7 +88,6 @@ function generatePackageJson(packageName, version, platform, npmArch) {
     name: packageName,
     version: version,
     description: `Terraform binary for ${platform} ${npmArch}`,
-    author: author,
     license: "MIT",
     repository: repository,
     homepage: homepage,
