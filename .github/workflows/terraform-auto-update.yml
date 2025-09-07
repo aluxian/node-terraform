@@ -1,0 +1,224 @@
+name: Terraform Auto Update
+
+on:
+  schedule:
+    - cron: '0 14 * * 1-5'  # 2 PM UTC, weekdays  
+  workflow_dispatch:
+
+jobs:
+  # Job 1: Check if new Terraform version exists
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      has_update: ${{ steps.check.outputs.has_update }}
+      terraform_version: ${{ steps.check.outputs.terraform_version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - run: npm ci
+      
+      - name: Check for new Terraform version
+        id: check
+        run: |
+          echo "🔍 Checking for new Terraform versions..."
+          
+          set +e
+          RESULT=$(node scripts/check-terraform-updates.js --check --format json)
+          EXIT_CODE=$?
+          set -e
+          
+          if [[ $EXIT_CODE -eq 0 ]]; then
+            echo "✅ No updates available"
+            echo "has_update=false" >> $GITHUB_OUTPUT
+          elif [[ $EXIT_CODE -eq 1 ]]; then
+            echo "🆕 New version available!"
+            echo "has_update=true" >> $GITHUB_OUTPUT
+            
+            LATEST_VERSION=$(echo "$RESULT" | jq -r '.latestVersion')
+            echo "terraform_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+            echo "Latest Terraform version: $LATEST_VERSION"
+          else
+            echo "❌ Error checking versions"
+            exit 1
+          fi
+
+  # Job 2: Update version and build main package  
+  build-main:
+    needs: check-version
+    if: needs.check-version.outputs.has_update == 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
+      package_version: ${{ steps.version.outputs.package_version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.SSH_KEY }}
+          
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - run: npm ci
+      
+      - name: Update version
+        id: version
+        run: |
+          git config user.email "${{ vars.GIT_EMAIL }}"
+          git config user.name "${{ github.actor }}"
+          
+          # Update to latest Terraform version
+          node scripts/sync-versions.js --version "${{ needs.check-version.outputs.terraform_version }}" --force --no-backup
+          
+          NEW_VERSION=$(jq -r '.version' package.json)
+          echo "package_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          
+          # Commit and tag
+          git add package.json
+          git commit -m "chore: update to terraform ${NEW_VERSION}"
+          git tag "v${NEW_VERSION}"
+          git push --follow-tags
+          
+          echo "✅ Updated to version ${NEW_VERSION}"
+      
+      - name: Build and test main package
+        run: |
+          npm run lint
+          npm run build
+          npm test
+      
+      - name: Upload main package artifacts
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: main-package-artifacts
+          path: ./artifacts/
+          if-no-files-found: error
+
+  # Job 3: Build all platform packages in parallel
+  build-platforms:
+    needs: [check-version, build-main]
+    if: needs.check-version.outputs.has_update == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: darwin
+            arch: arm64
+            terraform_arch: darwin_arm64
+            package_name: "@jahed/terraform-darwin-arm64"
+            binary_name: terraform
+          - platform: darwin
+            arch: x64
+            terraform_arch: darwin_amd64
+            package_name: "@jahed/terraform-darwin-x64"
+            binary_name: terraform
+          - platform: linux
+            arch: x64
+            terraform_arch: linux_amd64
+            package_name: "@jahed/terraform-linux-x64"
+            binary_name: terraform
+          - platform: linux
+            arch: arm64
+            terraform_arch: linux_arm64
+            package_name: "@jahed/terraform-linux-arm64"
+            binary_name: terraform
+          - platform: linux
+            arch: arm
+            terraform_arch: linux_arm
+            package_name: "@jahed/terraform-linux-arm"
+            binary_name: terraform
+          - platform: win32
+            arch: x64
+            terraform_arch: windows_amd64
+            package_name: "@jahed/terraform-win32-x64"
+            binary_name: terraform.exe
+          - platform: win32
+            arch: arm64
+            terraform_arch: windows_arm64
+            package_name: "@jahed/terraform-win32-arm64"
+            binary_name: terraform.exe
+          - platform: freebsd
+            arch: x64
+            terraform_arch: freebsd_amd64
+            package_name: "@jahed/terraform-freebsd-x64"
+            binary_name: terraform
+          - platform: openbsd
+            arch: x64
+            terraform_arch: openbsd_amd64
+            package_name: "@jahed/terraform-openbsd-x64"
+            binary_name: terraform
+          - platform: solaris
+            arch: x64
+            terraform_arch: solaris_amd64
+            package_name: "@jahed/terraform-solaris-x64"
+            binary_name: terraform
+    name: Build ${{ matrix.package_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
+
+      - name: Download and build platform package
+        run: |
+          TERRAFORM_VERSION="${{ needs.check-version.outputs.terraform_version }}"
+          
+          ./scripts/platform/download-terraform.sh "$TERRAFORM_VERSION" "${{ matrix.terraform_arch }}" downloads
+          ./scripts/platform/create-package-structure.sh "${{ matrix.package_name }}" "${{ matrix.platform }}" downloads platform-packages
+          node ./scripts/platform/generate-package-json.js "${{ matrix.package_name }}" "$TERRAFORM_VERSION" "${{ matrix.platform }}" "${{ matrix.arch }}" "platform-packages/${{ matrix.package_name }}"
+          node ./scripts/platform/generate-readme.js "${{ matrix.package_name }}" "${{ matrix.platform }}" "${{ matrix.arch }}" "$TERRAFORM_VERSION" "platform-packages/${{ matrix.package_name }}"
+          ./scripts/platform/validate-package.sh "platform-packages/${{ matrix.package_name }}" "${{ matrix.package_name }}" "${{ matrix.platform }}" "${{ matrix.binary_name }}"
+          ./scripts/platform/test-package.sh "platform-packages/${{ matrix.package_name }}" basic
+
+      - name: Publish platform package
+        run: |
+          ./scripts/platform/publish-package.sh "platform-packages/${{ matrix.package_name }}" "${{ matrix.package_name }}" "${{ needs.check-version.outputs.terraform_version }}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # Job 4: Publish main package and create release
+  publish:
+    needs: [check-version, build-main, build-platforms]
+    if: needs.check-version.outputs.has_update == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Download main package artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: main-package-artifacts
+          path: ./artifacts/
+
+      - name: Publish main package
+        run: |
+          TERRAFORM_VERSION="${{ needs.check-version.outputs.terraform_version }}"
+          PACKAGE_VERSION="${{ needs.build-main.outputs.package_version }}"
+          
+          # Update tarball dependencies and publish
+          ./scripts/release/update-tarball-deps.sh ./artifacts/package.tgz "$TERRAFORM_VERSION"
+          ./scripts/release/publish-main-package.sh ./artifacts/package.tgz "$PACKAGE_VERSION"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub release
+        run: |
+          PACKAGE_VERSION="${{ needs.build-main.outputs.package_version }}"
+          TERRAFORM_VERSION="${{ needs.check-version.outputs.terraform_version }}"
+          ./scripts/release/create-github-release.sh "$PACKAGE_VERSION" "$TERRAFORM_VERSION" ./artifacts/package.tgz
+        env:
+          GH_TOKEN: ${{ github.token }}
