@@ -3,7 +3,7 @@
   "version": "1.13.1",
   "description": "A wrapper for platform-specific Terraform binaries via npm",
   "type": "module",
-  "license": "MIT",
+  "license": "MPL-2.0",
   "keywords": [
     "terraform",
     "hashicorp",
@@ -17,7 +17,6 @@
   "bin": "bin/terraform.js",
   "files": [
     "bin",
-    "src",
     "hashicorp.asc"
   ],
   "scripts": {
