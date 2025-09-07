@@ -2,7 +2,7 @@
 
 # Validate platform package structure and contents
 # Usage: validate-package.sh <package_dir> <package_name> <platform> <binary_name>
-# Example: validate-package.sh ./platform-packages/@jahed/terraform-darwin-arm64 @jahed/terraform-darwin-arm64 darwin terraform
+# Example: validate-package.sh ./platform-packages/@aluxian/terraform-darwin-arm64 @aluxian/terraform-darwin-arm64 darwin terraform
 
 set -euo pipefail
 
@@ -15,14 +15,14 @@ Validates the structure and contents of a platform-specific npm package.
 
 Arguments:
   package_dir   Path to the package directory
-  package_name  Full npm package name (e.g., @jahed/terraform-darwin-arm64)
+  package_name  Full npm package name (e.g., @aluxian/terraform-darwin-arm64)
   platform      Platform name (darwin, linux, win32, freebsd, openbsd, solaris)
   binary_name   Expected binary name (terraform or terraform.exe)
 
 Examples:
-  $0 ./platform-packages/@jahed/terraform-darwin-arm64 @jahed/terraform-darwin-arm64 darwin terraform
-  $0 ./packages/linux-x64 @jahed/terraform-linux-x64 linux terraform
-  $0 ./win32-package @jahed/terraform-win32-x64 win32 terraform.exe
+  $0 ./platform-packages/@aluxian/terraform-darwin-arm64 @aluxian/terraform-darwin-arm64 darwin terraform
+  $0 ./packages/linux-x64 @aluxian/terraform-linux-x64 linux terraform
+  $0 ./win32-package @aluxian/terraform-win32-x64 win32 terraform.exe
 
 Validation checks:
   - Required files exist (package.json, README.md, binary)

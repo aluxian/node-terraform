@@ -52,15 +52,15 @@ create_mock_terraform_binary "test-package/bin/terraform"
 # Create valid package.json with optionalDependencies
 cat > test-package/package.json << 'EOF'
 {
-  "name": "@jahed/terraform",
+  "name": "@aluxian/terraform",
   "version": "1.13.1",
   "description": "Terraform wrapper",
   "license": "MIT",
   "files": ["bin", "lib"],
   "engines": {"node": ">=16.0.0"},
   "optionalDependencies": {
-    "@jahed/terraform-darwin-arm64": "1.13.1",
-    "@jahed/terraform-linux-x64": "1.13.1"
+    "@aluxian/terraform-darwin-arm64": "1.13.1",
+    "@aluxian/terraform-linux-x64": "1.13.1"
   }
 }
 EOF
@@ -109,7 +109,7 @@ test_info "Test 7: Missing required fields detection"
 mkdir -p missing-fields-package/package
 cat > missing-fields-package/package/package.json << 'EOF'
 {
-  "name": "@jahed/terraform",
+  "name": "@aluxian/terraform",
   "version": "1.13.1"
 }
 EOF
@@ -136,7 +136,7 @@ mkdir -p no-platforms-package/package/bin
 create_mock_terraform_binary "no-platforms-package/package/bin/terraform"
 cat > no-platforms-package/package/package.json << 'EOF'
 {
-  "name": "@jahed/terraform",
+  "name": "@aluxian/terraform",
   "version": "1.13.1",
   "description": "Test",
   "license": "MIT",
@@ -160,14 +160,14 @@ mkdir -p bad-files-package/package/bin
 create_mock_terraform_binary "bad-files-package/package/bin/terraform"
 cat > bad-files-package/package/package.json << 'EOF'
 {
-  "name": "@jahed/terraform",
+  "name": "@aluxian/terraform",
   "version": "1.13.1",
   "description": "Test",
   "license": "MIT",
   "files": ["bin", "nonexistent"],
   "engines": {"node": ">=16.0.0"},
   "optionalDependencies": {
-    "@jahed/terraform-linux-x64": "1.13.1"
+    "@aluxian/terraform-linux-x64": "1.13.1"
   }
 }
 EOF

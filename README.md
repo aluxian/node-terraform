@@ -1,7 +1,7 @@
-# @jahed/terraform
+# @aluxian/terraform
 
-[![npm](https://img.shields.io/npm/v/@jahed/terraform.svg)](https://www.npmjs.com/package/@jahed/terraform)
-[![author](https://img.shields.io/badge/author-jahed-%23007fff)](https://jahed.dev/)
+[![npm](https://img.shields.io/npm/v/@aluxian/terraform.svg)](https://www.npmjs.com/package/@aluxian/terraform)
+[![author](https://img.shields.io/badge/author-aluxian-%23007fff)](https://aluxian.dev/)
 
 A wrapper which downloads and runs [Terraform](https://www.terraform.io/)
 locally via [npm](https://www.npmjs.com/).
@@ -14,7 +14,7 @@ locally via [npm](https://www.npmjs.com/).
 
 ## Useful Links
 
-- [Development Blog](https://jahed.dev/tags/node-terraform/)
+- [Development Blog](https://aluxian.dev/tags/node-terraform/)
 - [Terraform CHANGELOG](https://github.com/hashicorp/terraform/blob/master/CHANGELOG.md)
 - [Terraform Releases](https://releases.hashicorp.com/terraform/)
 
@@ -24,10 +24,10 @@ Make sure to install the correct version for your project.
 
 ```sh
 # Latest
-npm install @jahed/terraform
+npm install @aluxian/terraform
 
 # Specific version
-npm install @jahed/terraform@1.0.6
+npm install @aluxian/terraform@1.0.6
 ```
 
 > Note: If you use [`required_version`](https://www.terraform.io/docs/configuration/terraform.html#specifying-a-required-terraform-version)
@@ -85,7 +85,7 @@ Like with any npm package, you can install the package globally and have it
 available anywhere on your system.
 
 ```sh
-npm install -g @jahed/terraform@1.0.6
+npm install -g @aluxian/terraform@1.0.6
 terraform --help
 ```
 
@@ -98,10 +98,10 @@ You can use `npx` to call Terraform from wherever you want. No installation
 needed.
 
 ```sh
-npx @jahed/terraform@1.0.6 --help
+npx @aluxian/terraform@1.0.6 --help
 ```
 
-Remember, you must always prefix it with `@jahed/`. Otherwise you'll end up
+Remember, you must always prefix it with `@aluxian/`. Otherwise you'll end up
 calling some other package. If you'd rather not, you can install the package
 [globally on your system](#global-installation) or
 [locally for your project](#installation).
@@ -146,7 +146,7 @@ To see what this package is doing (such as creating files and downloading) you
 can enable debug logs using the `NODE_DEBUG` environment variable.
 
 ```sh
-NODE_DEBUG='@jahed/terraform' npx terraform --help
+NODE_DEBUG='@aluxian/terraform' npx terraform --help
 ```
 
 ### The `terraform` version isn't available.

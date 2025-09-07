@@ -14,40 +14,40 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Platform mapping from terraform naming to npm package naming
 const PLATFORM_MAPPING = {
   darwin_amd64: {
-    npm: "@jahed/terraform-darwin-x64",
+    npm: "@aluxian/terraform-darwin-x64",
     os: "darwin",
     cpu: "x64",
   },
   darwin_arm64: {
-    npm: "@jahed/terraform-darwin-arm64",
+    npm: "@aluxian/terraform-darwin-arm64",
     os: "darwin",
     cpu: "arm64",
   },
-  linux_amd64: { npm: "@jahed/terraform-linux-x64", os: "linux", cpu: "x64" },
+  linux_amd64: { npm: "@aluxian/terraform-linux-x64", os: "linux", cpu: "x64" },
   linux_arm64: {
-    npm: "@jahed/terraform-linux-arm64",
+    npm: "@aluxian/terraform-linux-arm64",
     os: "linux",
     cpu: "arm64",
   },
-  linux_arm: { npm: "@jahed/terraform-linux-arm", os: "linux", cpu: "arm" },
-  windows_amd64: { npm: "@jahed/terraform-win32-x64", os: "win32", cpu: "x64" },
+  linux_arm: { npm: "@aluxian/terraform-linux-arm", os: "linux", cpu: "arm" },
+  windows_amd64: { npm: "@aluxian/terraform-win32-x64", os: "win32", cpu: "x64" },
   windows_arm64: {
-    npm: "@jahed/terraform-win32-arm64",
+    npm: "@aluxian/terraform-win32-arm64",
     os: "win32",
     cpu: "arm64",
   },
   freebsd_amd64: {
-    npm: "@jahed/terraform-freebsd-x64",
+    npm: "@aluxian/terraform-freebsd-x64",
     os: "freebsd",
     cpu: "x64",
   },
   openbsd_amd64: {
-    npm: "@jahed/terraform-openbsd-x64",
+    npm: "@aluxian/terraform-openbsd-x64",
     os: "openbsd",
     cpu: "x64",
   },
   solaris_amd64: {
-    npm: "@jahed/terraform-solaris-x64",
+    npm: "@aluxian/terraform-solaris-x64",
     os: "solaris",
     cpu: "x64",
   },
@@ -80,7 +80,7 @@ function validatePackageJson() {
   // Check for extra packages
   Object.keys(optionalDeps).forEach((pkg) => {
     if (
-      pkg.startsWith("@jahed/terraform-") &&
+      pkg.startsWith("@aluxian/terraform-") &&
       !expectedPackages.includes(pkg)
     ) {
       extraPackages.push(pkg);
@@ -242,7 +242,7 @@ function validateVersionConsistency() {
 
   const optionalDeps = packageJson.optionalDependencies || {};
   const terraformPackages = Object.keys(optionalDeps).filter((pkg) =>
-    pkg.startsWith("@jahed/terraform-")
+    pkg.startsWith("@aluxian/terraform-")
   );
 
   if (terraformPackages.length === 0) {
@@ -295,7 +295,7 @@ function validatePackageNaming() {
   // Check for packages that follow the pattern but aren't in our mapping
   Object.keys(optionalDeps).forEach((pkg) => {
     if (
-      pkg.startsWith("@jahed/terraform-") &&
+      pkg.startsWith("@aluxian/terraform-") &&
       !expectedPackages.includes(pkg)
     ) {
       issues.push(`Unknown platform package: ${pkg}`);
@@ -305,10 +305,10 @@ function validatePackageNaming() {
 
   // Validate naming pattern consistency
   expectedPackages.forEach((expectedPkg) => {
-    // Package names are like @jahed/terraform-darwin-x64
+    // Package names are like @aluxian/terraform-darwin-x64
     // Split by '/' first to handle scoped packages
     const scope = expectedPkg.split("/");
-    if (scope.length !== 2 || scope[0] !== "@jahed") {
+    if (scope.length !== 2 || scope[0] !== "@aluxian") {
       issues.push(`Invalid scope in package name: ${expectedPkg}`);
       namingValid = false;
       return;
@@ -317,7 +317,7 @@ function validatePackageNaming() {
     const parts = scope[1].split("-");
     if (parts.length !== 3 || parts[0] !== "terraform") {
       issues.push(
-        `Invalid naming pattern: ${expectedPkg} (expected: @jahed/terraform-platform-arch)`
+        `Invalid naming pattern: ${expectedPkg} (expected: @aluxian/terraform-platform-arch)`
       );
       namingValid = false;
     }
@@ -341,7 +341,7 @@ function validateSemanticVersions() {
 
   const optionalDeps = packageJson.optionalDependencies || {};
   const terraformPackages = Object.keys(optionalDeps).filter((pkg) =>
-    pkg.startsWith("@jahed/terraform-")
+    pkg.startsWith("@aluxian/terraform-")
   );
 
   let versionsValid = true;

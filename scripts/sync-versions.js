@@ -69,7 +69,7 @@ function getCurrentVersions() {
     const optionalDeps = packageJson.optionalDependencies || {};
 
     const terraformPackages = Object.keys(optionalDeps).filter((pkg) =>
-      pkg.startsWith("@jahed/terraform-")
+      pkg.startsWith("@aluxian/terraform-")
     );
 
     const platformVersions = {};
@@ -225,7 +225,7 @@ function syncPlatformsToVersion(packageJson, targetVersion) {
   const changes = [];
 
   Object.keys(optionalDeps).forEach((pkg) => {
-    if (pkg.startsWith("@jahed/terraform-")) {
+    if (pkg.startsWith("@aluxian/terraform-")) {
       const oldVersion = optionalDeps[pkg];
       optionalDeps[pkg] = targetVersion;
       changes.push({

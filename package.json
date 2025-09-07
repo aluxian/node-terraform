@@ -1,5 +1,5 @@
 {
-  "name": "@jahed/terraform",
+  "name": "@aluxian/terraform",
   "version": "1.13.1",
   "description": "A wrapper for platform-specific Terraform binaries via npm",
   "type": "module",
@@ -29,15 +29,15 @@
     "prettier": "^2.8.8"
   },
   "optionalDependencies": {
-    "@jahed/terraform-darwin-arm64": "1.13.1",
-    "@jahed/terraform-darwin-x64": "1.13.1",
-    "@jahed/terraform-freebsd-x64": "1.13.1",
-    "@jahed/terraform-linux-arm": "1.13.1",
-    "@jahed/terraform-linux-arm64": "1.13.1",
-    "@jahed/terraform-linux-x64": "1.13.1",
-    "@jahed/terraform-openbsd-x64": "1.13.1",
-    "@jahed/terraform-solaris-x64": "1.13.1",
-    "@jahed/terraform-win32-arm64": "1.13.1",
-    "@jahed/terraform-win32-x64": "1.13.1"
+    "@aluxian/terraform-darwin-arm64": "1.13.1",
+    "@aluxian/terraform-darwin-x64": "1.13.1",
+    "@aluxian/terraform-freebsd-x64": "1.13.1",
+    "@aluxian/terraform-linux-arm": "1.13.1",
+    "@aluxian/terraform-linux-arm64": "1.13.1",
+    "@aluxian/terraform-linux-x64": "1.13.1",
+    "@aluxian/terraform-openbsd-x64": "1.13.1",
+    "@aluxian/terraform-solaris-x64": "1.13.1",
+    "@aluxian/terraform-win32-arm64": "1.13.1",
+    "@aluxian/terraform-win32-x64": "1.13.1"
   }
 }

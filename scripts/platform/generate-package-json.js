@@ -3,7 +3,7 @@
 /**
  * Generate package.json for platform-specific Terraform packages
  * Usage: node generate-package-json.js <package_name> <version> <platform> <npm_arch> <package_dir>
- * Example: node generate-package-json.js @jahed/terraform-darwin-arm64 1.13.1 darwin arm64 ./platform-packages/@jahed/terraform-darwin-arm64
+ * Example: node generate-package-json.js @aluxian/terraform-darwin-arm64 1.13.1 darwin arm64 ./platform-packages/@aluxian/terraform-darwin-arm64
  */
 
 import fs from "fs";
@@ -16,23 +16,23 @@ Usage: node ${process.argv[1]} <package_name> <version> <platform> <npm_arch> <p
 Generates a package.json file for a platform-specific Terraform package.
 
 Arguments:
-  package_name    Full npm package name (e.g., @jahed/terraform-darwin-arm64)
+  package_name    Full npm package name (e.g., @aluxian/terraform-darwin-arm64)
   version         Terraform version (e.g., 1.13.1)
   platform        Platform name (darwin, linux, win32, freebsd, openbsd, solaris)
   npm_arch        npm architecture (arm64, x64, arm)
   package_dir     Directory where package.json will be created
 
 Examples:
-  node ${process.argv[1]} @jahed/terraform-darwin-arm64 1.13.1 darwin arm64 ./platform-packages/@jahed/terraform-darwin-arm64
-  node ${process.argv[1]} @jahed/terraform-linux-x64 1.13.1 linux x64 ./packages/linux-x64
-  node ${process.argv[1]} @jahed/terraform-win32-x64 1.13.1 win32 x64 ./win32-package
+  node ${process.argv[1]} @aluxian/terraform-darwin-arm64 1.13.1 darwin arm64 ./platform-packages/@aluxian/terraform-darwin-arm64
+  node ${process.argv[1]} @aluxian/terraform-linux-x64 1.13.1 linux x64 ./packages/linux-x64
+  node ${process.argv[1]} @aluxian/terraform-win32-x64 1.13.1 win32 x64 ./win32-package
 
 Environment Variables:
-  AUTHOR          Package author (default: "Jahed Ahmed <jahed.public@gmail.com> (https://jahed.dev)")
-  REPOSITORY      Repository URL (default: "https://github.com/jahed/node-terraform")
+  AUTHOR          Package author (default: "Jahed Ahmed <aluxian.public@gmail.com> (https://aluxian.dev)")
+  REPOSITORY      Repository URL (default: "https://github.com/aluxian/node-terraform")
   HOMEPAGE        Homepage URL (default: same as repository)
   BUGS            Bug tracker URL (default: repository + /issues)
-  FUNDING         Funding URL (default: "https://jahed.dev/donate")
+  FUNDING         Funding URL (default: "https://aluxian.dev/donate")
 `);
 }
 
@@ -80,11 +80,11 @@ function validateArguments(args) {
 
 function generatePackageJson(packageName, version, platform, npmArch) {
   // Environment variables with defaults
-  const author = process.env.AUTHOR || "Jahed Ahmed <jahed.public@gmail.com> (https://jahed.dev)";
-  const repository = process.env.REPOSITORY || "https://github.com/jahed/node-terraform";
+  const author = process.env.AUTHOR || "Jahed Ahmed <aluxian.public@gmail.com> (https://aluxian.dev)";
+  const repository = process.env.REPOSITORY || "https://github.com/aluxian/node-terraform";
   const homepage = process.env.HOMEPAGE || repository;
   const bugs = process.env.BUGS || `${repository}/issues`;
-  const funding = process.env.FUNDING || "https://jahed.dev/donate";
+  const funding = process.env.FUNDING || "https://aluxian.dev/donate";
 
   return {
     name: packageName,

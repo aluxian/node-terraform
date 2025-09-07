@@ -198,7 +198,7 @@ function getCurrentVersion() {
 
     // Get version from any platform package (they should all be the same)
     const platformPackages = Object.keys(optionalDeps).filter((pkg) =>
-      pkg.startsWith("@jahed/terraform-")
+      pkg.startsWith("@aluxian/terraform-")
     );
 
     if (platformPackages.length === 0) {

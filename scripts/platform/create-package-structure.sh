@@ -2,7 +2,7 @@
 
 # Create platform package structure and copy binary
 # Usage: create-package-structure.sh <package_name> <platform> <downloads_dir> [output_base_dir]
-# Example: create-package-structure.sh @jahed/terraform-darwin-arm64 darwin downloads ./platform-packages
+# Example: create-package-structure.sh @aluxian/terraform-darwin-arm64 darwin downloads ./platform-packages
 
 set -euo pipefail
 
@@ -14,15 +14,15 @@ Usage: $0 <package_name> <platform> <downloads_dir> [output_base_dir]
 Creates the directory structure for a platform-specific npm package and copies the binary.
 
 Arguments:
-  package_name      Full npm package name (e.g., @jahed/terraform-darwin-arm64)
+  package_name      Full npm package name (e.g., @aluxian/terraform-darwin-arm64)
   platform          Platform name (darwin, linux, win32, freebsd, openbsd, solaris)
   downloads_dir     Directory containing the downloaded terraform binary
   output_base_dir   Base directory for platform packages (default: ./platform-packages)
 
 Examples:
-  $0 @jahed/terraform-darwin-arm64 darwin ./downloads
-  $0 @jahed/terraform-linux-x64 linux ./temp ./output
-  $0 @jahed/terraform-win32-x64 win32 ./downloads ./packages
+  $0 @aluxian/terraform-darwin-arm64 darwin ./downloads
+  $0 @aluxian/terraform-linux-x64 linux ./temp ./output
+  $0 @aluxian/terraform-win32-x64 win32 ./downloads ./packages
 
 The script will create:
   \${output_base_dir}/\${package_name}/

@@ -28,7 +28,7 @@ Environment Variables:
   FORCE_PUBLISH    Set to 'true' to publish even if version already exists (not recommended)
   NPM_REGISTRY     npm registry URL (default: https://registry.npmjs.org)
   PUBLISH_ACCESS   npm publish access level (default: public)
-  PACKAGE_NAME     Expected package name (default: @jahed/terraform)
+  PACKAGE_NAME     Expected package name (default: @aluxian/terraform)
 
 Safety Features:
   - Verifies tarball integrity before publishing
@@ -80,7 +80,7 @@ DRY_RUN="${DRY_RUN:-false}"
 FORCE_PUBLISH="${FORCE_PUBLISH:-false}"
 NPM_REGISTRY="${NPM_REGISTRY:-https://registry.npmjs.org}"
 PUBLISH_ACCESS="${PUBLISH_ACCESS:-public}"
-PACKAGE_NAME="${PACKAGE_NAME:-@jahed/terraform}"
+PACKAGE_NAME="${PACKAGE_NAME:-@aluxian/terraform}"
 
 # Set npm token
 if [[ -n "$NPM_TOKEN_ARG" ]]; then

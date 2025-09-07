@@ -25,7 +25,7 @@ Examples:
 
 Process:
   1. Extracts package.json from tarball
-  2. Updates all @jahed/terraform-* packages in optionalDependencies
+  2. Updates all @aluxian/terraform-* packages in optionalDependencies
   3. Validates the updated JSON structure
   4. Repackages with updated package.json
   5. Verifies the final tarball integrity
@@ -152,7 +152,7 @@ info "Updating optionalDependencies to terraform version: $TERRAFORM_VERSION"
 jq --arg version "$TERRAFORM_VERSION" '
   .optionalDependencies = (.optionalDependencies // {} | 
     with_entries(
-      if .key | startswith("@jahed/terraform-") then
+      if .key | startswith("@aluxian/terraform-") then
         .value = $version
       else
         .
@@ -172,7 +172,7 @@ info "Updated optionalDependencies:"
 jq '.optionalDependencies' "$TEMP_PKG_JSON"
 
 # Count updated packages
-UPDATED_COUNT=$(jq '.optionalDependencies | to_entries | map(select(.key | startswith("@jahed/terraform-"))) | length' "$TEMP_PKG_JSON")
+UPDATED_COUNT=$(jq '.optionalDependencies | to_entries | map(select(.key | startswith("@aluxian/terraform-"))) | length' "$TEMP_PKG_JSON")
 success "Updated $UPDATED_COUNT platform packages"
 
 # Replace package.json in extracted directory
@@ -216,7 +216,7 @@ if [[ ! -f "package/package.json" ]]; then
 fi
 
 # Verify optionalDependencies were updated correctly
-FINAL_TERRAFORM_PACKAGES=$(jq '.optionalDependencies | to_entries | map(select(.key | startswith("@jahed/terraform-")))' "package/package.json")
+FINAL_TERRAFORM_PACKAGES=$(jq '.optionalDependencies | to_entries | map(select(.key | startswith("@aluxian/terraform-")))' "package/package.json")
 EXPECTED_VERSION_COUNT=$(echo "$FINAL_TERRAFORM_PACKAGES" | jq "map(select(.value == \"$TERRAFORM_VERSION\")) | length")
 TOTAL_TERRAFORM_PACKAGES=$(echo "$FINAL_TERRAFORM_PACKAGES" | jq 'length')
 

@@ -47,14 +47,14 @@ function run_tests {
     fi
     
     # Create platform package structure in test directory
-    mkdir -p "${project_dir}/node_modules/@jahed/terraform-${platform}-${arch}/bin"
-    cp "${terraform_binary}" "${project_dir}/node_modules/@jahed/terraform-${platform}-${arch}/bin/terraform"
-    chmod +x "${project_dir}/node_modules/@jahed/terraform-${platform}-${arch}/bin/terraform"
+    mkdir -p "${project_dir}/node_modules/@aluxian/terraform-${platform}-${arch}/bin"
+    cp "${terraform_binary}" "${project_dir}/node_modules/@aluxian/terraform-${platform}-${arch}/bin/terraform"
+    chmod +x "${project_dir}/node_modules/@aluxian/terraform-${platform}-${arch}/bin/terraform"
     
     # Create package.json for platform package
-    cat > "${project_dir}/node_modules/@jahed/terraform-${platform}-${arch}/package.json" << EOF
+    cat > "${project_dir}/node_modules/@aluxian/terraform-${platform}-${arch}/package.json" << EOF
 {
-  "name": "@jahed/terraform-${platform}-${arch}",
+  "name": "@aluxian/terraform-${platform}-${arch}",
   "version": "1.13.1",
   "description": "Platform-specific terraform binary for ${platform} ${arch}",
   "main": "index.js",
@@ -66,7 +66,7 @@ function run_tests {
 EOF
     
     # Create index.js for platform package
-    echo "module.exports = require('./bin/terraform');" > "${project_dir}/node_modules/@jahed/terraform-${platform}-${arch}/index.js"
+    echo "module.exports = require('./bin/terraform');" > "${project_dir}/node_modules/@aluxian/terraform-${platform}-${arch}/index.js"
   fi
   
   echo "[${1}] Created: ${project_dir}"
@@ -91,7 +91,7 @@ EOF
   if [[ "${platform}" == "darwin" && "${arch}" == "arm64" ]]; then
     echo "[${1}] Ensuring platform package is available for npm install..."
     # The package structure was already set up earlier, just verify it exists
-    if [[ ! -f "./node_modules/@jahed/terraform-${platform}-${arch}/bin/terraform" ]]; then
+    if [[ ! -f "./node_modules/@aluxian/terraform-${platform}-${arch}/bin/terraform" ]]; then
       echo "[${1}] ERROR: Platform package setup failed"
       exit 1
     fi

@@ -100,7 +100,7 @@ function updateOptionalDependencies(packageJson, version) {
 
   // Update existing platform packages
   Object.keys(optionalDeps).forEach((pkg) => {
-    if (pkg.startsWith("@jahed/terraform-")) {
+    if (pkg.startsWith("@aluxian/terraform-")) {
       const oldVersion = optionalDeps[pkg];
       optionalDeps[pkg] = version;
       changes.push({

@@ -2,7 +2,7 @@
 
 # Publish platform package to npm with safety checks
 # Usage: publish-package.sh <package_dir> <package_name> <version> [npm_token]
-# Example: publish-package.sh ./platform-packages/@jahed/terraform-darwin-arm64 @jahed/terraform-darwin-arm64 1.13.1
+# Example: publish-package.sh ./platform-packages/@aluxian/terraform-darwin-arm64 @aluxian/terraform-darwin-arm64 1.13.1
 
 set -euo pipefail
 
@@ -15,13 +15,13 @@ Publishes a platform-specific npm package with safety checks and verification.
 
 Arguments:
   package_dir   Path to the package directory containing package.json
-  package_name  Full npm package name (e.g., @jahed/terraform-darwin-arm64)
+  package_name  Full npm package name (e.g., @aluxian/terraform-darwin-arm64)
   version       Expected package version (for verification)
   npm_token     npm authentication token (optional, can use NPM_TOKEN env var)
 
 Examples:
-  $0 ./platform-packages/@jahed/terraform-darwin-arm64 @jahed/terraform-darwin-arm64 1.13.1
-  $0 ./packages/linux-x64 @jahed/terraform-linux-x64 1.13.1 npm_xxxxxxxx
+  $0 ./platform-packages/@aluxian/terraform-darwin-arm64 @aluxian/terraform-darwin-arm64 1.13.1
+  $0 ./packages/linux-x64 @aluxian/terraform-linux-x64 1.13.1 npm_xxxxxxxx
   
 Environment Variables:
   NPM_TOKEN       npm authentication token (alternative to passing as argument)

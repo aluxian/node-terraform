@@ -47,7 +47,7 @@ assert_contains "$output" "Invalid package name format" "Should show package nam
 test_info "Test 4: Invalid version validation"
 
 mkdir -p test-package
-output=$(capture_output node "$SCRIPT_PATH" "@jahed/terraform-test" "invalid" "darwin" "arm64" "./test-package")
+output=$(capture_output node "$SCRIPT_PATH" "@aluxian/terraform-test" "invalid" "darwin" "arm64" "./test-package")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with invalid version"
 assert_contains "$output" "Invalid semantic version format" "Should show version error"
@@ -56,7 +56,7 @@ assert_contains "$output" "Invalid semantic version format" "Should show version
 test_info "Test 5: Invalid platform validation"
 
 mkdir -p test-package
-output=$(capture_output node "$SCRIPT_PATH" "@jahed/terraform-test" "1.13.1" "invalid" "arm64" "./test-package")
+output=$(capture_output node "$SCRIPT_PATH" "@aluxian/terraform-test" "1.13.1" "invalid" "arm64" "./test-package")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with invalid platform"
 assert_contains "$output" "Invalid platform" "Should show platform error"
@@ -65,7 +65,7 @@ assert_contains "$output" "Invalid platform" "Should show platform error"
 test_info "Test 6: Invalid architecture validation"
 
 mkdir -p test-package
-output=$(capture_output node "$SCRIPT_PATH" "@jahed/terraform-test" "1.13.1" "darwin" "invalid" "./test-package")
+output=$(capture_output node "$SCRIPT_PATH" "@aluxian/terraform-test" "1.13.1" "darwin" "invalid" "./test-package")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with invalid architecture"
 assert_contains "$output" "Invalid npm architecture" "Should show architecture error"
@@ -73,7 +73,7 @@ assert_contains "$output" "Invalid npm architecture" "Should show architecture e
 # Test 7: Missing package directory
 test_info "Test 7: Missing package directory handling"
 
-output=$(capture_output node "$SCRIPT_PATH" "@jahed/terraform-test" "1.13.1" "darwin" "arm64" "./nonexistent")
+output=$(capture_output node "$SCRIPT_PATH" "@aluxian/terraform-test" "1.13.1" "darwin" "arm64" "./nonexistent")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with nonexistent directory"
 assert_contains "$output" "Package directory does not exist" "Should show directory error"
@@ -84,7 +84,7 @@ test_info "Test 8: Successful package.json generation"
 test_package_dir="test-package-success"
 mkdir -p "$test_package_dir"
 
-output=$(capture_output node "$SCRIPT_PATH" "@jahed/terraform-darwin-arm64" "1.13.1" "darwin" "arm64" "./$test_package_dir")
+output=$(capture_output node "$SCRIPT_PATH" "@aluxian/terraform-darwin-arm64" "1.13.1" "darwin" "arm64" "./$test_package_dir")
 exit_code=$?
 assert_equals 0 "$exit_code" "Should succeed with valid arguments"
 assert_contains "$output" "Generated package.json" "Should show success message"
@@ -102,7 +102,7 @@ version=$(jq -r '.version' "$package_json_path")
 platform=$(jq -r '.os[0]' "$package_json_path")
 arch=$(jq -r '.cpu[0]' "$package_json_path")
 
-assert_equals "@jahed/terraform-darwin-arm64" "$name" "Package name should match"
+assert_equals "@aluxian/terraform-darwin-arm64" "$name" "Package name should match"
 assert_equals "1.13.1" "$version" "Package version should match"
 assert_equals "darwin" "$platform" "Platform should match"
 assert_equals "arm64" "$arch" "Architecture should match"
@@ -128,7 +128,7 @@ for combo in "${platforms[@]}"; do
   test_dir="test-$test_platform-$test_arch"
   mkdir -p "$test_dir"
   
-  output=$(capture_output node "$SCRIPT_PATH" "@jahed/terraform-$test_platform-$test_arch" "1.13.1" "$test_platform" "$test_arch" "./$test_dir")
+  output=$(capture_output node "$SCRIPT_PATH" "@aluxian/terraform-$test_platform-$test_arch" "1.13.1" "$test_platform" "$test_arch" "./$test_dir")
   exit_code=$?
   assert_equals 0 "$exit_code" "Should succeed for $test_platform $test_arch"
   
@@ -151,7 +151,7 @@ export AUTHOR="Test Author <test@example.com>"
 export REPOSITORY="https://github.com/test/repo"
 export HOMEPAGE="https://test.example.com"
 
-output=$(capture_output node "$SCRIPT_PATH" "@jahed/terraform-test" "1.13.1" "linux" "x64" "./$test_dir")
+output=$(capture_output node "$SCRIPT_PATH" "@aluxian/terraform-test" "1.13.1" "linux" "x64" "./$test_dir")
 exit_code=$?
 assert_equals 0 "$exit_code" "Should succeed with environment variables"
 
@@ -172,13 +172,13 @@ test_dir="test-validation"
 mkdir -p "$test_dir"
 
 # Generate a package and verify validation catches issues
-node "$SCRIPT_PATH" "@jahed/terraform-validation-test" "1.13.1" "linux" "x64" "./$test_dir"
+node "$SCRIPT_PATH" "@aluxian/terraform-validation-test" "1.13.1" "linux" "x64" "./$test_dir"
 
 # Manually corrupt the JSON to test validation
 echo "invalid json" > "$test_dir/package.json"
 
 # Test that validation catches the corruption
-output=$(capture_output node "$SCRIPT_PATH" "@jahed/terraform-validation-test" "1.13.1" "linux" "x64" "./$test_dir")
+output=$(capture_output node "$SCRIPT_PATH" "@aluxian/terraform-validation-test" "1.13.1" "linux" "x64" "./$test_dir")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail validation with corrupted JSON"
 
@@ -188,7 +188,7 @@ test_info "Test 12: Keywords and metadata verification"
 test_dir="test-metadata"
 mkdir -p "$test_dir"
 
-node "$SCRIPT_PATH" "@jahed/terraform-metadata-test" "1.13.1" "darwin" "arm64" "./$test_dir"
+node "$SCRIPT_PATH" "@aluxian/terraform-metadata-test" "1.13.1" "darwin" "arm64" "./$test_dir"
 generated_json="$test_dir/package.json"
 
 # Check that keywords include expected values

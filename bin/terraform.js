@@ -23,13 +23,13 @@ const require = createRequire(import.meta.url);
 const PLATFORM_MAPPING = {
   // macOS
   "darwin arm64": {
-    pkg: "@jahed/terraform-darwin-arm64",
+    pkg: "@aluxian/terraform-darwin-arm64",
     subpath: "bin/terraform",
     terraformPlatform: "darwin",
     terraformArch: "arm64",
   },
   "darwin x64": {
-    pkg: "@jahed/terraform-darwin-x64",
+    pkg: "@aluxian/terraform-darwin-x64",
     subpath: "bin/terraform",
     terraformPlatform: "darwin",
     terraformArch: "amd64",
@@ -37,19 +37,19 @@ const PLATFORM_MAPPING = {
 
   // Linux
   "linux arm64": {
-    pkg: "@jahed/terraform-linux-arm64",
+    pkg: "@aluxian/terraform-linux-arm64",
     subpath: "bin/terraform",
     terraformPlatform: "linux",
     terraformArch: "arm64",
   },
   "linux x64": {
-    pkg: "@jahed/terraform-linux-x64",
+    pkg: "@aluxian/terraform-linux-x64",
     subpath: "bin/terraform",
     terraformPlatform: "linux",
     terraformArch: "amd64",
   },
   "linux arm": {
-    pkg: "@jahed/terraform-linux-arm",
+    pkg: "@aluxian/terraform-linux-arm",
     subpath: "bin/terraform",
     terraformPlatform: "linux",
     terraformArch: "arm",
@@ -57,13 +57,13 @@ const PLATFORM_MAPPING = {
 
   // Windows
   "win32 arm64": {
-    pkg: "@jahed/terraform-win32-arm64",
+    pkg: "@aluxian/terraform-win32-arm64",
     subpath: "terraform.exe",
     terraformPlatform: "windows",
     terraformArch: "arm64",
   },
   "win32 x64": {
-    pkg: "@jahed/terraform-win32-x64",
+    pkg: "@aluxian/terraform-win32-x64",
     subpath: "terraform.exe",
     terraformPlatform: "windows",
     terraformArch: "amd64",
@@ -71,7 +71,7 @@ const PLATFORM_MAPPING = {
 
   // FreeBSD
   "freebsd x64": {
-    pkg: "@jahed/terraform-freebsd-x64",
+    pkg: "@aluxian/terraform-freebsd-x64",
     subpath: "bin/terraform",
     terraformPlatform: "freebsd",
     terraformArch: "amd64",
@@ -79,7 +79,7 @@ const PLATFORM_MAPPING = {
 
   // OpenBSD
   "openbsd x64": {
-    pkg: "@jahed/terraform-openbsd-x64",
+    pkg: "@aluxian/terraform-openbsd-x64",
     subpath: "bin/terraform",
     terraformPlatform: "openbsd",
     terraformArch: "amd64",
@@ -87,7 +87,7 @@ const PLATFORM_MAPPING = {
 
   // Solaris (Node.js reports as 'sunos')
   "sunos x64": {
-    pkg: "@jahed/terraform-solaris-x64",
+    pkg: "@aluxian/terraform-solaris-x64",
     subpath: "bin/terraform",
     terraformPlatform: "solaris",
     terraformArch: "amd64",

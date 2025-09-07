@@ -38,7 +38,7 @@ test_info "Test 3: Default behavior with package.json"
 # Create mock package.json
 cat > package.json << 'EOF'
 {
-  "name": "@jahed/terraform-test",
+  "name": "@aluxian/terraform-test",
   "version": "1.13.1",
   "description": "Test package"
 }
@@ -166,7 +166,7 @@ test_info "Test 12: Invalid package.json version"
 # Create package.json with invalid version
 cat > package.json << 'EOF'
 {
-  "name": "@jahed/terraform-test",
+  "name": "@aluxian/terraform-test",
   "version": "invalid-version",
   "description": "Test package"
 }
@@ -191,7 +191,7 @@ test_info "Test 14: Custom package.json path"
 mkdir -p custom-location
 cat > custom-location/package.json << 'EOF'
 {
-  "name": "@jahed/terraform-custom",
+  "name": "@aluxian/terraform-custom",
   "version": "2.0.0",
   "description": "Custom location test"
 }

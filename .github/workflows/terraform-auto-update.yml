@@ -101,52 +101,52 @@ jobs:
           - platform: darwin
             arch: arm64
             terraform_arch: darwin_arm64
-            package_name: "@jahed/terraform-darwin-arm64"
+            package_name: "@aluxian/terraform-darwin-arm64"
             binary_name: terraform
           - platform: darwin
             arch: x64
             terraform_arch: darwin_amd64
-            package_name: "@jahed/terraform-darwin-x64"
+            package_name: "@aluxian/terraform-darwin-x64"
             binary_name: terraform
           - platform: linux
             arch: x64
             terraform_arch: linux_amd64
-            package_name: "@jahed/terraform-linux-x64"
+            package_name: "@aluxian/terraform-linux-x64"
             binary_name: terraform
           - platform: linux
             arch: arm64
             terraform_arch: linux_arm64
-            package_name: "@jahed/terraform-linux-arm64"
+            package_name: "@aluxian/terraform-linux-arm64"
             binary_name: terraform
           - platform: linux
             arch: arm
             terraform_arch: linux_arm
-            package_name: "@jahed/terraform-linux-arm"
+            package_name: "@aluxian/terraform-linux-arm"
             binary_name: terraform
           - platform: win32
             arch: x64
             terraform_arch: windows_amd64
-            package_name: "@jahed/terraform-win32-x64"
+            package_name: "@aluxian/terraform-win32-x64"
             binary_name: terraform.exe
           - platform: win32
             arch: arm64
             terraform_arch: windows_arm64
-            package_name: "@jahed/terraform-win32-arm64"
+            package_name: "@aluxian/terraform-win32-arm64"
             binary_name: terraform.exe
           - platform: freebsd
             arch: x64
             terraform_arch: freebsd_amd64
-            package_name: "@jahed/terraform-freebsd-x64"
+            package_name: "@aluxian/terraform-freebsd-x64"
             binary_name: terraform
           - platform: openbsd
             arch: x64
             terraform_arch: openbsd_amd64
-            package_name: "@jahed/terraform-openbsd-x64"
+            package_name: "@aluxian/terraform-openbsd-x64"
             binary_name: terraform
           - platform: solaris
             arch: x64
             terraform_arch: solaris_amd64
-            package_name: "@jahed/terraform-solaris-x64"
+            package_name: "@aluxian/terraform-solaris-x64"
             binary_name: terraform
     name: Build ${{ matrix.package_name }}
     steps:

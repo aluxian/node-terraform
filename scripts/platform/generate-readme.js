@@ -3,7 +3,7 @@
 /**
  * Generate README.md for platform-specific Terraform packages
  * Usage: node generate-readme.js <package_name> <platform> <npm_arch> <terraform_version> <package_dir>
- * Example: node generate-readme.js @jahed/terraform-darwin-arm64 darwin arm64 1.13.1 ./platform-packages/@jahed/terraform-darwin-arm64
+ * Example: node generate-readme.js @aluxian/terraform-darwin-arm64 darwin arm64 1.13.1 ./platform-packages/@aluxian/terraform-darwin-arm64
  */
 
 import fs from "fs";
@@ -16,20 +16,20 @@ Usage: node ${process.argv[1]} <package_name> <platform> <npm_arch> <terraform_v
 Generates a README.md file for a platform-specific Terraform package.
 
 Arguments:
-  package_name       Full npm package name (e.g., @jahed/terraform-darwin-arm64)
+  package_name       Full npm package name (e.g., @aluxian/terraform-darwin-arm64)
   platform          Platform name (darwin, linux, win32, freebsd, openbsd, solaris)
   npm_arch          npm architecture (arm64, x64, arm)
   terraform_version Terraform version (e.g., 1.13.1)
   package_dir       Directory where README.md will be created
 
 Examples:
-  node ${process.argv[1]} @jahed/terraform-darwin-arm64 darwin arm64 1.13.1 ./platform-packages/@jahed/terraform-darwin-arm64
-  node ${process.argv[1]} @jahed/terraform-linux-x64 linux x64 1.13.1 ./packages/linux-x64
-  node ${process.argv[1]} @jahed/terraform-win32-x64 win32 x64 1.13.1 ./win32-package
+  node ${process.argv[1]} @aluxian/terraform-darwin-arm64 darwin arm64 1.13.1 ./platform-packages/@aluxian/terraform-darwin-arm64
+  node ${process.argv[1]} @aluxian/terraform-linux-x64 linux x64 1.13.1 ./packages/linux-x64
+  node ${process.argv[1]} @aluxian/terraform-win32-x64 win32 x64 1.13.1 ./win32-package
 
 Environment Variables:
-  MAIN_PACKAGE_NAME  Main package name (default: "@jahed/terraform")
-  REPOSITORY_URL     Repository URL (default: "https://github.com/jahed/node-terraform")
+  MAIN_PACKAGE_NAME  Main package name (default: "@aluxian/terraform")
+  REPOSITORY_URL     Repository URL (default: "https://github.com/aluxian/node-terraform")
   NPM_URL           npm URL base (default: "https://www.npmjs.com/package")
 `);
 }
@@ -100,8 +100,8 @@ function getArchDisplayName(npmArch) {
 
 function generateReadme(packageName, platform, npmArch, terraformVersion) {
   // Environment variables with defaults
-  const mainPackageName = process.env.MAIN_PACKAGE_NAME || "@jahed/terraform";
-  const repositoryUrl = process.env.REPOSITORY_URL || "https://github.com/jahed/node-terraform";
+  const mainPackageName = process.env.MAIN_PACKAGE_NAME || "@aluxian/terraform";
+  const repositoryUrl = process.env.REPOSITORY_URL || "https://github.com/aluxian/node-terraform";
   const npmUrl = process.env.NPM_URL || "https://www.npmjs.com/package";
 
   const platformDisplay = getPlatformDisplayName(platform);
@@ -200,7 +200,7 @@ function validateGeneratedReadme(readmePath) {
     
     // Basic validation - check for required sections
     const requiredSections = [
-      "# @jahed/terraform-", // Package title
+      "# @aluxian/terraform-", // Package title
       "## Platform Support",
       "## Usage",
       "## License"

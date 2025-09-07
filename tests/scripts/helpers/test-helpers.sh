@@ -202,7 +202,7 @@ EOF
 
 create_mock_package_json() {
   local file_path="$1"
-  local name="${2:-@jahed/terraform-test}"
+  local name="${2:-@aluxian/terraform-test}"
   local version="${3:-1.13.1}"
   local platform="${4:-linux}"
   local arch="${5:-x64}"

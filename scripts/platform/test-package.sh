@@ -2,7 +2,7 @@
 
 # Test platform package installability and basic functionality
 # Usage: test-package.sh <package_dir> [test_type]
-# Example: test-package.sh ./platform-packages/@jahed/terraform-darwin-arm64 full
+# Example: test-package.sh ./platform-packages/@aluxian/terraform-darwin-arm64 full
 
 set -euo pipefail
 
@@ -21,8 +21,8 @@ Arguments:
                - smoke: basic + binary execution test
 
 Examples:
-  $0 ./platform-packages/@jahed/terraform-darwin-arm64
-  $0 ./platform-packages/@jahed/terraform-linux-x64 full
+  $0 ./platform-packages/@aluxian/terraform-darwin-arm64
+  $0 ./platform-packages/@aluxian/terraform-linux-x64 full
   $0 ./packages/win32-x64 smoke
 
 Test Types:

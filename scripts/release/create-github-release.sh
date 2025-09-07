@@ -181,7 +181,7 @@ This release includes platform-specific packages for:
 ## Installation
 
 \`\`\`bash
-npm install @jahed/terraform
+npm install @aluxian/terraform
 \`\`\`
 
 The appropriate platform binary will be automatically installed based on your system.
@@ -217,21 +217,21 @@ All binaries in this release are:
 All platform-specific packages are published at version \`${TERRAFORM_VERSION}\`:
 
 \`\`\`
-@jahed/terraform-darwin-arm64@${TERRAFORM_VERSION}
-@jahed/terraform-darwin-x64@${TERRAFORM_VERSION}
-@jahed/terraform-linux-arm64@${TERRAFORM_VERSION}
-@jahed/terraform-linux-x64@${TERRAFORM_VERSION}
-@jahed/terraform-linux-arm@${TERRAFORM_VERSION}
-@jahed/terraform-win32-arm64@${TERRAFORM_VERSION}
-@jahed/terraform-win32-x64@${TERRAFORM_VERSION}
-@jahed/terraform-freebsd-x64@${TERRAFORM_VERSION}
-@jahed/terraform-openbsd-x64@${TERRAFORM_VERSION}
-@jahed/terraform-solaris-x64@${TERRAFORM_VERSION}
+@aluxian/terraform-darwin-arm64@${TERRAFORM_VERSION}
+@aluxian/terraform-darwin-x64@${TERRAFORM_VERSION}
+@aluxian/terraform-linux-arm64@${TERRAFORM_VERSION}
+@aluxian/terraform-linux-x64@${TERRAFORM_VERSION}
+@aluxian/terraform-linux-arm@${TERRAFORM_VERSION}
+@aluxian/terraform-win32-arm64@${TERRAFORM_VERSION}
+@aluxian/terraform-win32-x64@${TERRAFORM_VERSION}
+@aluxian/terraform-freebsd-x64@${TERRAFORM_VERSION}
+@aluxian/terraform-openbsd-x64@${TERRAFORM_VERSION}
+@aluxian/terraform-solaris-x64@${TERRAFORM_VERSION}
 \`\`\`
 
 ## Links
 
-- **npm Package**: [https://www.npmjs.com/package/@jahed/terraform](https://www.npmjs.com/package/@jahed/terraform)
+- **npm Package**: [https://www.npmjs.com/package/@aluxian/terraform](https://www.npmjs.com/package/@aluxian/terraform)
 - **Documentation**: [README.md](https://github.com/${GITHUB_REPOSITORY}/blob/v${PACKAGE_VERSION}/README.md)
 - **Issues**: [GitHub Issues](https://github.com/${GITHUB_REPOSITORY}/issues)
 - **Terraform Official**: [https://www.terraform.io/](https://www.terraform.io/)

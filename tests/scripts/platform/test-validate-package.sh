@@ -43,7 +43,7 @@ assert_contains "$output" "Invalid package name format" "Should show package nam
 # Test 4: Invalid platform
 test_info "Test 4: Invalid platform validation"
 
-output=$(capture_output "$SCRIPT_PATH" "./test-package" "@jahed/terraform-test" "invalid-platform" "terraform")
+output=$(capture_output "$SCRIPT_PATH" "./test-package" "@aluxian/terraform-test" "invalid-platform" "terraform")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with invalid platform"
 assert_contains "$output" "Unsupported platform" "Should show platform error"
@@ -51,7 +51,7 @@ assert_contains "$output" "Unsupported platform" "Should show platform error"
 # Test 5: Invalid binary name
 test_info "Test 5: Invalid binary name validation"
 
-output=$(capture_output "$SCRIPT_PATH" "./test-package" "@jahed/terraform-test" "linux" "invalid-binary")
+output=$(capture_output "$SCRIPT_PATH" "./test-package" "@aluxian/terraform-test" "linux" "invalid-binary")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with invalid binary name"
 assert_contains "$output" "Invalid binary name" "Should show binary name error"
@@ -59,7 +59,7 @@ assert_contains "$output" "Invalid binary name" "Should show binary name error"
 # Test 6: Missing package directory
 test_info "Test 6: Missing package directory handling"
 
-output=$(capture_output "$SCRIPT_PATH" "./nonexistent" "@jahed/terraform-test" "linux" "terraform")
+output=$(capture_output "$SCRIPT_PATH" "./nonexistent" "@aluxian/terraform-test" "linux" "terraform")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with missing directory"
 assert_contains "$output" "Package directory does not exist" "Should show directory error"
@@ -70,7 +70,7 @@ test_info "Test 7: Missing required files validation"
 empty_package="empty-package"
 mkdir -p "$empty_package"
 
-output=$(capture_output "$SCRIPT_PATH" "./$empty_package" "@jahed/terraform-test" "linux" "terraform")
+output=$(capture_output "$SCRIPT_PATH" "./$empty_package" "@aluxian/terraform-test" "linux" "terraform")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with missing files"
 assert_contains "$output" "Required file missing" "Should show missing files error"
@@ -86,11 +86,11 @@ mkdir -p "$valid_package/bin"
 create_mock_terraform_binary "$valid_package/bin/terraform" "1.13.1"
 
 # Create valid package.json
-create_mock_package_json "$valid_package/package.json" "@jahed/terraform-linux-x64" "1.13.1" "linux" "x64"
+create_mock_package_json "$valid_package/package.json" "@aluxian/terraform-linux-x64" "1.13.1" "linux" "x64"
 
 # Create README.md
 cat > "$valid_package/README.md" << 'EOF'
-# @jahed/terraform-linux-x64
+# @aluxian/terraform-linux-x64
 
 This package contains the Terraform binary for Linux x64.
 
@@ -106,7 +106,7 @@ MIT
 EOF
 
 # Validate the package
-output=$(capture_output "$SCRIPT_PATH" "./$valid_package" "@jahed/terraform-linux-x64" "linux" "terraform")
+output=$(capture_output "$SCRIPT_PATH" "./$valid_package" "@aluxian/terraform-linux-x64" "linux" "terraform")
 exit_code=$?
 assert_equals 0 "$exit_code" "Should pass validation for valid package"
 assert_contains "$output" "Package validation PASSED" "Should show success message"
@@ -126,7 +126,7 @@ echo "{ invalid json }" > "$invalid_json_package/package.json"
 # Create minimal README
 echo "# Test README" > "$invalid_json_package/README.md"
 
-output=$(capture_output "$SCRIPT_PATH" "./$invalid_json_package" "@jahed/terraform-test" "linux" "terraform")
+output=$(capture_output "$SCRIPT_PATH" "./$invalid_json_package" "@aluxian/terraform-test" "linux" "terraform")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with invalid JSON"
 assert_contains "$output" "not valid JSON" "Should detect invalid JSON"
@@ -141,12 +141,12 @@ mkdir -p "$mismatch_package/bin"
 create_mock_terraform_binary "$mismatch_package/bin/terraform"
 
 # Create package.json with wrong name
-create_mock_package_json "$mismatch_package/package.json" "@jahed/terraform-wrong-name" "1.13.1" "linux" "x64"
+create_mock_package_json "$mismatch_package/package.json" "@aluxian/terraform-wrong-name" "1.13.1" "linux" "x64"
 
 # Create README
 echo "# Test README" > "$mismatch_package/README.md"
 
-output=$(capture_output "$SCRIPT_PATH" "./$mismatch_package" "@jahed/terraform-expected-name" "linux" "terraform")
+output=$(capture_output "$SCRIPT_PATH" "./$mismatch_package" "@aluxian/terraform-expected-name" "linux" "terraform")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with name mismatch"
 assert_contains "$output" "package.json name mismatch" "Should detect name mismatch"
@@ -158,10 +158,10 @@ no_binary_package="no-binary-package"
 mkdir -p "$no_binary_package/bin"
 
 # Create valid package.json and README but no binary
-create_mock_package_json "$no_binary_package/package.json" "@jahed/terraform-no-binary" "1.13.1" "linux" "x64"
+create_mock_package_json "$no_binary_package/package.json" "@aluxian/terraform-no-binary" "1.13.1" "linux" "x64"
 echo "# Test README" > "$no_binary_package/README.md"
 
-output=$(capture_output "$SCRIPT_PATH" "./$no_binary_package" "@jahed/terraform-no-binary" "linux" "terraform")
+output=$(capture_output "$SCRIPT_PATH" "./$no_binary_package" "@aluxian/terraform-no-binary" "linux" "terraform")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with missing binary"
 assert_contains "$output" "Binary file not found" "Should detect missing binary"
@@ -176,10 +176,10 @@ mkdir -p "$non_exec_package/bin"
 echo "fake binary" > "$non_exec_package/bin/terraform"
 # Don't make it executable
 
-create_mock_package_json "$non_exec_package/package.json" "@jahed/terraform-non-exec" "1.13.1" "linux" "x64"
+create_mock_package_json "$non_exec_package/package.json" "@aluxian/terraform-non-exec" "1.13.1" "linux" "x64"
 echo "# Test README" > "$non_exec_package/README.md"
 
-output=$(capture_output "$SCRIPT_PATH" "./$non_exec_package" "@jahed/terraform-non-exec" "linux" "terraform")
+output=$(capture_output "$SCRIPT_PATH" "./$non_exec_package" "@aluxian/terraform-non-exec" "linux" "terraform")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with non-executable binary"
 assert_contains "$output" "Binary is not executable" "Should detect non-executable binary"
@@ -193,10 +193,10 @@ mkdir -p "$windows_package/bin"
 # Create Windows binary (no chmod needed)
 echo "fake windows binary" > "$windows_package/bin/terraform.exe"
 
-create_mock_package_json "$windows_package/package.json" "@jahed/terraform-win32-x64" "1.13.1" "win32" "x64"
+create_mock_package_json "$windows_package/package.json" "@aluxian/terraform-win32-x64" "1.13.1" "win32" "x64"
 echo "# Test README" > "$windows_package/README.md"
 
-output=$(capture_output "$SCRIPT_PATH" "./$windows_package" "@jahed/terraform-win32-x64" "win32" "terraform.exe")
+output=$(capture_output "$SCRIPT_PATH" "./$windows_package" "@aluxian/terraform-win32-x64" "win32" "terraform.exe")
 exit_code=$?
 # Should pass because Windows doesn't check executable permissions
 if [[ $exit_code -eq 0 ]]; then
@@ -217,14 +217,14 @@ create_mock_terraform_binary "$missing_fields_package/bin/terraform"
 # Create package.json missing required fields
 cat > "$missing_fields_package/package.json" << 'EOF'
 {
-  "name": "@jahed/terraform-missing-fields",
+  "name": "@aluxian/terraform-missing-fields",
   "version": "1.13.1"
 }
 EOF
 
 echo "# Test README" > "$missing_fields_package/README.md"
 
-output=$(capture_output "$SCRIPT_PATH" "./$missing_fields_package" "@jahed/terraform-missing-fields" "linux" "terraform")
+output=$(capture_output "$SCRIPT_PATH" "./$missing_fields_package" "@aluxian/terraform-missing-fields" "linux" "terraform")
 exit_code=$?
 assert_not_equals 0 "$exit_code" "Should fail with missing required fields"
 assert_contains "$output" "Missing required field" "Should detect missing fields"
@@ -236,14 +236,14 @@ unexpected_files_package="unexpected-files-package"
 mkdir -p "$unexpected_files_package/bin"
 
 create_mock_terraform_binary "$unexpected_files_package/bin/terraform"
-create_mock_package_json "$unexpected_files_package/package.json" "@jahed/terraform-unexpected" "1.13.1" "linux" "x64"
+create_mock_package_json "$unexpected_files_package/package.json" "@aluxian/terraform-unexpected" "1.13.1" "linux" "x64"
 echo "# Test README" > "$unexpected_files_package/README.md"
 
 # Add some unexpected files
 echo "secret" > "$unexpected_files_package/secret.key"
 echo "log data" > "$unexpected_files_package/debug.log"
 
-output=$(capture_output "$SCRIPT_PATH" "./$unexpected_files_package" "@jahed/terraform-unexpected" "linux" "terraform")
+output=$(capture_output "$SCRIPT_PATH" "./$unexpected_files_package" "@aluxian/terraform-unexpected" "linux" "terraform")
 # This should still pass validation but show warnings
 assert_contains "$output" "Unexpected files found" "Should warn about unexpected files"
 
