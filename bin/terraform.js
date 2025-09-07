@@ -96,7 +96,7 @@ const PLATFORM_MAPPING = {
 
 /**
  * Gets the platform package information for the current system
- * @returns {Promise<PlatformInfo>} Promise resolving to PlatformInfo containing package name and binary subpath
+ * @returns {PlatformInfo} PlatformInfo containing package name and binary subpath
  * @throws {Error} If the current platform/architecture combination is not supported
  */
 const getPlatformPackage = () => {
@@ -107,14 +107,12 @@ const getPlatformPackage = () => {
   const platformInfo = PLATFORM_MAPPING[key];
 
   if (!platformInfo) {
-    return Promise.reject(
-      new Error(
-        `Platform "${platform}" with architecture "${arch}" is not supported.`
-      )
+    throw new Error(
+      `Platform "${platform}" with architecture "${arch}" is not supported.`
     );
   }
 
-  return Promise.resolve(platformInfo);
+  return platformInfo;
 };
 
 /**
@@ -125,7 +123,7 @@ const getPlatformPackage = () => {
  * @throws {Error} If platform package cannot be resolved
  */
 async function resolveTerraformBinary() {
-  const platformInfo = await getPlatformPackage();
+  const platformInfo = getPlatformPackage();
 
   let packagePath;
   try {
