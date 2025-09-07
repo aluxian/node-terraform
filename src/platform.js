@@ -1,16 +1,18 @@
-import os from "os";
+const os = require("os");
 
-export interface PlatformInfo {
-  pkg: string;
-  subpath: string;
-  terraformPlatform: string;
-  terraformArch: string;
-}
+/**
+ * @typedef {Object} PlatformInfo
+ * @property {string} pkg - Package name
+ * @property {string} subpath - Binary subpath within package
+ * @property {string} terraformPlatform - Terraform platform name
+ * @property {string} terraformArch - Terraform architecture name
+ */
 
 /**
  * Maps Node.js platform and architecture combinations to Terraform package information
+ * @type {Record<string, PlatformInfo | null>}
  */
-const PLATFORM_MAPPING: Record<string, PlatformInfo | null> = {
+const PLATFORM_MAPPING = {
   // macOS
   "darwin arm64": {
     pkg: "@jahed/terraform-darwin-arm64",
@@ -95,10 +97,10 @@ const PLATFORM_MAPPING: Record<string, PlatformInfo | null> = {
 
 /**
  * Gets the platform package information for the current system
- * @returns Promise resolving to PlatformInfo containing package name and binary subpath
- * @throws Error if the current platform/architecture combination is not supported
+ * @returns {Promise<PlatformInfo>} Promise resolving to PlatformInfo containing package name and binary subpath
+ * @throws {Error} If the current platform/architecture combination is not supported
  */
-const getPlatformPackage = (): Promise<PlatformInfo> => {
+const getPlatformPackage = () => {
   const platform = process.platform;
   const arch = os.arch();
   const key = `${platform} ${arch}`;
@@ -123,8 +125,8 @@ const getPlatformPackage = (): Promise<PlatformInfo> => {
 
 /**
  * Gets the Terraform platform name for the current system
- * @returns Promise resolving to terraform platform name (e.g., "darwin", "linux", "windows")
- * @throws Error if the current platform/architecture combination is not supported
+ * @returns {Promise<string>} Promise resolving to terraform platform name (e.g., "darwin", "linux", "windows")
+ * @throws {Error} If the current platform/architecture combination is not supported
  */
 const getTerraformPlatform = async () => {
   const platformInfo = await getPlatformPackage();
@@ -133,12 +135,12 @@ const getTerraformPlatform = async () => {
 
 /**
  * Gets the Terraform architecture name for the current system
- * @returns Promise resolving to terraform architecture name (e.g., "amd64", "arm64", "arm")
- * @throws Error if the current platform/architecture combination is not supported
+ * @returns {Promise<string>} Promise resolving to terraform architecture name (e.g., "amd64", "arm64", "arm")
+ * @throws {Error} If the current platform/architecture combination is not supported
  */
 const getTerraformArchitecture = async () => {
   const platformInfo = await getPlatformPackage();
   return platformInfo.terraformArch;
 };
 
-export { getPlatformPackage, getTerraformPlatform, getTerraformArchitecture };
+module.exports = { getPlatformPackage, getTerraformPlatform, getTerraformArchitecture };

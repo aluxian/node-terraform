@@ -1,16 +1,16 @@
-import path from "path";
-import fs from "fs";
-import { debug } from "./debug";
-import { getPlatformPackage } from "./platform";
+const path = require("path");
+const fs = require("fs");
+const { debug } = require("./debug");
+const { getPlatformPackage } = require("./platform");
 
 /**
  * Resolves the terraform binary from platform-specific package
  * This is a pure esbuild-style implementation with no download fallback
  *
- * @returns Promise resolving to the path of the terraform binary
- * @throws Error if platform package cannot be resolved
+ * @returns {Promise<string>} Promise resolving to the path of the terraform binary
+ * @throws {Error} If platform package cannot be resolved
  */
-export async function resolveTerraformBinary(): Promise<string> {
+async function resolveTerraformBinary() {
   debug("starting terraform binary resolution (platform packages only)");
 
   const platformInfo = await getPlatformPackage();
@@ -19,7 +19,7 @@ export async function resolveTerraformBinary(): Promise<string> {
   // platformInfo is guaranteed to exist since getPlatformPackage() rejects on null
 
   // Try to resolve the platform package
-  let packagePath: string;
+  let packagePath;
   try {
     packagePath = require.resolve(platformInfo.pkg);
     debug("platform package resolved successfully", { packagePath });
@@ -68,3 +68,5 @@ export async function resolveTerraformBinary(): Promise<string> {
     );
   }
 }
+
+module.exports = { resolveTerraformBinary };
