@@ -2,6 +2,7 @@
   "name": "@jahed/terraform",
   "version": "1.13.1",
   "description": "A wrapper for platform-specific Terraform binaries via npm",
+  "type": "module",
   "license": "MIT",
   "keywords": [
     "terraform",

@@ -6,8 +6,8 @@
  * Example: node generate-package-json.js @jahed/terraform-darwin-arm64 1.13.1 darwin arm64 ./platform-packages/@jahed/terraform-darwin-arm64
  */
 
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
 function usage() {
   console.log(`

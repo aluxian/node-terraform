@@ -1,7 +1,10 @@
-const path = require("path");
-const fs = require("fs");
-const { debug } = require("./debug");
-const { getPlatformPackage } = require("./platform");
+import path from "path";
+import fs from "fs";
+import { createRequire } from "module";
+import { debug } from "./debug.js";
+import { getPlatformPackage } from "./platform.js";
+
+const require = createRequire(import.meta.url);
 
 /**
  * Resolves the terraform binary from platform-specific package
@@ -69,4 +72,4 @@ async function resolveTerraformBinary() {
   }
 }
 
-module.exports = { resolveTerraformBinary };
+export { resolveTerraformBinary };

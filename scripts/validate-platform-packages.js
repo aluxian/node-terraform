@@ -5,8 +5,11 @@
  * This helps ensure that the GitHub workflows are properly configured
  */
 
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Platform mapping from terraform naming to npm package naming
 const PLATFORM_MAPPING = {
@@ -503,11 +506,11 @@ function main() {
   }
 }
 
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }
 
-module.exports = {
+export {
   validatePackageJson,
   validateWorkflowMatrix,
   validateBinaryNames,

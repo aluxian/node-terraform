@@ -1,5 +1,5 @@
-const { spawn } = require("child_process");
-const { resolveTerraformBinary } = require("./binaryResolver");
+import { spawn } from "child_process";
+import { resolveTerraformBinary } from "./binaryResolver.js";
 
 const cli = async () => {
   const args = process.argv.slice(2);

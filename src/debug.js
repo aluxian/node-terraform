@@ -1,5 +1,5 @@
-const { debuglog } = require("util");
+import { debuglog } from "util";
 
 const debug = debuglog("@jahed/terraform");
 
-module.exports = { debug };
+export { debug };

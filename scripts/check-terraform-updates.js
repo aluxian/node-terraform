@@ -12,12 +12,15 @@
  *   node scripts/check-terraform-updates.js --help
  */
 
-const fs = require("fs");
-const path = require("path");
-const https = require("https");
+import fs from "fs";
+import path from "path";
+import https from "https";
+import { fileURLToPath } from "url";
 
 // Import platform mapping from existing validation script
-const { PLATFORM_MAPPING } = require("./validate-platform-packages");
+import { PLATFORM_MAPPING } from "./validate-platform-packages.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function printUsage() {
   console.log(`
@@ -457,11 +460,11 @@ async function main() {
   }
 }
 
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }
 
-module.exports = {
+export {
   fetchTerraformReleases,
   parseVersion,
   compareVersions,

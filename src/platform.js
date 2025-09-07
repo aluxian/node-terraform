@@ -1,4 +1,4 @@
-const os = require("os");
+import os from "os";
 
 /**
  * @typedef {Object} PlatformInfo
@@ -143,4 +143,4 @@ const getTerraformArchitecture = async () => {
   return platformInfo.terraformArch;
 };
 
-module.exports = { getPlatformPackage, getTerraformPlatform, getTerraformArchitecture };
+export { getPlatformPackage, getTerraformPlatform, getTerraformArchitecture };

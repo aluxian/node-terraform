@@ -12,19 +12,22 @@
  *   node scripts/sync-versions.js --help
  */
 
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 // Import from other scripts
-const { PLATFORM_MAPPING } = require("./validate-platform-packages");
-const {
+import { PLATFORM_MAPPING } from "./validate-platform-packages.js";
+import {
   fetchTerraformReleases,
   filterReleases,
-} = require("./check-terraform-updates");
-const {
+} from "./check-terraform-updates.js";
+import {
   updateOptionalDependencies,
   validateVersion,
-} = require("./update-optional-deps");
+} from "./update-optional-deps.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function printUsage() {
   console.log(`
@@ -462,11 +465,11 @@ async function main() {
   }
 }
 
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }
 
-module.exports = {
+export {
   getCurrentVersions,
   analyzeVersionState,
   getLatestTerraformVersion,
